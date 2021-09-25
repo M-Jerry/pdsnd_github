@@ -1,30 +1,19 @@
->**Note**: Please **fork** the current Udacity repository so that you will have a **remote** repository in **your** Github account. Clone the remote repository to your local machine. Later, as a part of the project "Post your Work on Github", you will push your proposed changes to the remote repository in your Github account.
+> ** Using R skills to explore bikeshare data for 3 major cities in United State (Chicago, New-York-City, Washington) and report findings. Using graphs to Produce data visualization and Summary Statistics.
 
 ### Date created
-Created on;
-24/09/2021
+Created on:
+28/08/2021
 
 ### Project Title
-Replace the Project Title
-Project No3 "Post your work on Github"
+Project No2 "Explore Bike-Share Data-R"
 
 ### Description
-It's about putting in practice knowledge on Version Control and Github by;
-  1) Setting up Github profile with a Repostory (remote and local repo)
-  2) Creat branches (Improve Documentation)
-  3) Merge branches
-  4) Post on Github.
+Using R to explore data related to bike share systems for three major cities in the United States; Chicago, New York City, and Washington. Writing code to import the data and answer interesting questions about it by computing descriptive statistics and making visualizations.
 
 ### Files used
 BikeShare.Rmd
 README.md
-.gitignore 
-
 
 ### Credits
-Special thanks to my Mentor Richard Kalehoff [https://github.com/richardkalehoff](https://github.com/richardkalehoff)
-and the entire Udacity's team
-[Udacity's Version Control with Git course](https://www.udacity.com/course/version-control-with-git--ud123
 
-Thanks to Scott's Webblog
-https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/
+A big thanks to my instructors Mr. Chris Saden a Full Stack Developer at Udacity and Mr. Guy Lebanon a director at Amazon for their incredible guides in learning R.
