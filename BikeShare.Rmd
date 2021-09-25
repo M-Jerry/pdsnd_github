@@ -25,36 +25,7 @@ ny   <-read.csv ('new-york-city.csv', header = TRUE, sep = ',')
 wash <-read.csv ('washington.csv', header = TRUE, sep = ',')
 
 ```
-
-
-
-### View Column names and first 3 rows for each City.
-```{r ch}
-# For Chicago.
-
-head(chi, 3)
-
-```
-
-
-```{r nnew-york-city00}
-# For New-York-City.
-
-ny   <-read.csv ('new-york-city.csv', header = TRUE, sep = ',')
-head(ny, 3)
-
-```
-
-
-```{r wash}
-# For Washington.
-
-wash <-read.csv ('washington.csv', header = TRUE, sep = ',')
-head(wash, 3)
-
-```
-
-
+#### View Column names and first 3 rows for each City is taking off!
 
 ##        QUESTION  (1)  
 
