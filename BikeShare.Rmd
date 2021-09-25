@@ -1,0 +1,559 @@
+---
+title: "Project_02_Bike-Share"
+author: "M Jerry"
+date: "8/28/2021"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+#                    PROJECT 02 BIKESHARE DATA
+
+```{r setup}
+# Loading libraries
+getwd()
+list.files
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+
+# Calling files and assigning names.
+
+chi  <-read.csv ('chicago.csv', header = TRUE, sep = ',')
+ny   <-read.csv ('new-york-city.csv', header = TRUE, sep = ',')
+wash <-read.csv ('washington.csv', header = TRUE, sep = ',')
+
+```
+
+
+
+### View Column names and first 3 rows for each City.
+```{r ch}
+# For Chicago.
+
+chi  <-read.csv ('chicago.csv', header = TRUE, sep = ',')
+head(chi, 3)
+
+```
+
+
+```{r nnew-york-city00}
+# For New-York-City.
+
+ny   <-read.csv ('new-york-city.csv', header = TRUE, sep = ',')
+head(ny, 3)
+
+```
+
+
+```{r wash}
+# For Washington.
+
+wash <-read.csv ('washington.csv', header = TRUE, sep = ',')
+head(wash, 3)
+
+```
+
+
+
+##        QUESTION  (1)  
+  
+
+##  Q1) Which age group uses Bike-Share THE MOST as means of transportation?.Find for each city.
+
+
+### For chicago
+
+```{r chi}
+# Loading ggplot
+
+library(ggplot2)
+
+# Calling file and assigning name
+
+chi <- read.csv ('chicago.csv', header = TRUE, sep = ',')
+
+# Assigning variables.
+
+chi.No.na <- na.omit(chi)
+B.Y <- chi.No.na$Birth.Year 
+Age = c(NULL)
+idx = 1
+
+# Using Birth.Year to calculate ages.        
+       
+for (val in B.Y) {
+  
+             minus = 2017 - val
+             Age[idx] = minus
+             idx= idx +1
+}
+
+# Display output characteristics on Histogram chart.
+
+ggplot(aes( x = Age), data = chi.No.na) +
+       geom_histogram(binwidth =3.5,
+        color = 'red',fill='#099DD9') + 
+        scale_x_continuous(breaks = seq(0,120,5))+
+          xlab("Bike-Share User's Age group")+
+             ylab("Users Count")+
+                ggtitle("Most common Age-group using Bike-Share in Chicago")
+
+```
+
+
+### SUMMARY
+  
+From my visualization graph its clear that users of age-group **23 to 33 max**, followed by **34 to 40** years old are the **Most Users** of Bike-share in Chicago, and its obvious since that age group is made up of youth.    
+  
+This data will be of great help to the company as it help them to know their most customer base age group, so they can use this channel(Youth) for advert to target many.
+ 
+Looking closely, you can see users with age above **90** having very little count,this can be as a result of some users given fake 'Birth.Year' or old users(customers) who don't ride anymore, as its obvious people above that age will hardly ride bikes. 
+
+***
+
+### For New-York-City
+
+```{r new-yok-city}
+
+# Loading of ggplot2
+
+library(ggplot2)
+
+# Calling file and assigning name
+
+ny <- read.csv ('new-york-city.csv', header = TRUE, sep = ',')
+
+# Assigning variables
+
+ny.No.na<- na.omit(ny)
+B.Y <- ny.No.na$Birth.Year
+age = c(NULL)
+idx = 1
+
+# Using Birth.Years column to calculate ages.
+     
+   for (val in B.Y) {
+  
+           minus = 2017 - val
+           age[idx] = minus
+           idx= idx +1
+}
+ 
+# Display output characteristic on histogram chart.
+
+ggplot(aes( x = age ), data = ny.No.na) +
+     geom_histogram(binwidth =3.5,color = 'red') + 
+       scale_x_continuous(breaks = seq(15,135,5)) +
+          xlab("Bike-Share User's Age group")+
+            ylab("Users-Count")+
+              ggtitle("Most Age-group using Bike-share in New-York-City") 
+
+```
+
+### SUMMARY
+
+looking at the visualization for New-York-City, we can notice some similarities with that of Chicago like the maximum age-group of users**(23 to 40 years)** and users above **90** years old.But Taking a closer look at these 2 visualization you will notice the following differences;
+  
+* The minimum Bike user age for New-York-City  is 16 and above which look fair enough,but that of Chicago is 1 year and above,that doesn't look fair as a 1 year old cannot be riding a bike.
+  
+* Also, with New-York-City we can notice a great count increase of users age-group **(43 to 47)**which is not the case with Chicago.
+  
+  From observation i would say, Bike-share New-York-City had a better accurate output or her workers work better with users to input accurate data (Birth.Year) as compare to Chicago.
+   
+***
+
+
+
+
+##                         QUESTION  (2)
+
+## Q2) Find the Most Common travel hour for Bike-Share users in each city?.
+
+
+### For Chicago
+
+```{r }
+chi <- read.csv ('chicago.csv', header = TRUE, sep = ',')
+library(lubridate)
+
+# Mutating Start.Time to Hours of Day.
+
+chiNewTable <- chi %>% mutate (Hour.of.D = hour(Start.Time))
+                        
+# Display output characteristic on Histogram chart.
+
+        ggplot(aes(x = Hour.of.D),data = chiNewTable)+
+          geom_histogram(binwidth = 1,colour = "blue" )+
+            scale_x_continuous(breaks = seq(0,23,1) )+
+             scale_y_continuous(breaks = seq(500,40000,2000))+
+              xlab('Hours of the day')+
+                ylab('Count of Bike-Share Users')+
+                 ggtitle('Most common travel hours for Bike-Share users in Chicago')
+
+
+```
+
+
+### SUMMARY
+
+From my histogram output, its evident between **16h to 18h** hour of the day we have the most bike-share users followed by **7h to 8h** hour, and from 0h to **4h** hour we have the least Bike-users. 
+   
+This result is true as **16h to 18h** hour is the evening period where most people are returning home and will prefer bike to overcome traffic, same with **7h to 8h** hour which is the morning period of the day as many will be rushing to school or job-side and will prefer bike-share to by-bass traffic, and the least is **0h** to 4h hour of the day is might night were many are indoors and sleeping. 
+  
+Another interesting thing about my graph is the simultaneous  decrease of bike users from **18h, 0h to 4h** hour of the day which really depict how our street get less busy from evening, might-night to early morning.
+   
+This graph will help the company to make better decisions on when to need more staff active and more bikes available, and to the user to choose a convenient hour to use Bike-share. 
+
+ 
+*See bellow code to count users in different hours of the day in Chicago*
+
+```{r}
+# count of users in different hours and assign to a Hchi.Count
+
+Hchi.Count<-count(chiNewTable,Hour.of.D)
+Hchi.Count
+```
+
+***
+
+### For New-York-City
+
+```{r}
+ny <- read.csv ('new-york-city.csv', header = TRUE, sep = ',')
+library(lubridate)
+
+# Mutating Start.Time to Hours of Day.
+
+ nyNewTable <- ny %>%mutate(Hour.of.D = hour(Start.Time))
+                          
+# Display output characteristic on Histogram chart.
+
+        ggplot(aes(x = Hour.of.D),data = nyNewTable)+
+          geom_histogram(binwidth = 1,colour = "blue" )+
+            scale_x_continuous(breaks = seq(0,23,1) )+
+             scale_y_continuous(breaks = seq(500,40000,2000))+
+              xlab('Hours of the day')+
+                ylab('Count of Bike-Share Users')+
+                 ggtitle('Most common travel hours of Bike-Share users in New-York-City')
+
+
+```
+
+### SUMMAR
+
+ From my output graph you can see similarities with that of Chicago like the most travel hour range **(17h to 18h evening, 8h to 9h morning)**, the least travel hour range **(0h to 4h)**, and the simultaneous decrease in travel-hours **(19h,0h to 4h)**.
+  
+  looking at this graph we can easily notice the unique simultaneous increase of Bike-share users from **10h up to 16h** hour of the day.
+  
+  From observation its clear that Chicago is having more Bike-share users than New-York-city, and this graph will be useful for the company and user as explained above.
+  
+
+*See bellow code to count Bike-Share users in different hours of the day in New-York-City*.
+
+```{r}
+# count of users in different hours and assign to Hny.Count.
+
+Hny.Count<-count(nyNewTable,Hour.of.D)
+Hny.Count
+```
+***
+
+## For washngton
+
+```{r}
+
+library(lubridate)
+wash<-read.csv ('washington.csv', header = TRUE, sep = ',')
+
+# Mutating Start.Time to hours of Day.
+
+washNewTable <- wash %>%mutate(Hour.of.D = hour(Start.Time))
+                          
+# Display output characteristic on Histogram chart.
+
+        ggplot(aes(x = Hour.of.D),data = washNewTable)+
+          geom_histogram(binwidth = 1,colour = "blue" )+
+            scale_x_continuous(breaks = seq(0,23,1) )+
+             scale_y_continuous(breaks = seq(500,40000,2000))+
+              xlab('Hours of the day')+
+                ylab('Count Bike.Share Users')+
+                 ggtitle('Most common travel-hour for Bike-Share users in Washington')
+        
+```
+
+### SUMMARY
+  Unlike the above 2 graph for Chicago and New-York-city, Washington turns to show the contrary with Most and least hour. From the graph it shows most travel hour ranges from **7h to 8h** hour of the day with least being **23h to 0h** hour.  
+ 
+   Also we can notice this strange rapid increase of users  in **1h** hour, increasing up to the 5h hour.This could seem strange as these are might-night and early-morning hours **(1h to 5h)** of the day where many are at home. This graph can be true taken in consideration factors like the main activities of the town and Bike-share users, otherwise wrong data input.
+  
+   Observing all 3 cities, what is common is they all have simultaneous decrease of Bike-share users from evening to might-night hours **(18h to 0h hour)**.Still, this graph will be very useful to the company to improve management, and users to decide on riding hours.
+  
+***
+
+
+
+##                     QUESTION  (3) 
+
+##  Q3) Give the most common day of the week for Bike-share users travel in all cities.
+
+```{r most common day of week}
+library(lubridate)
+
+# calling files and assigning names. 
+
+ny<-read.csv ('new-york-city.csv', header = TRUE, sep = ',')
+chi<-read.csv ('chicago.csv', header = TRUE, sep = ',')
+wash<-read.csv ('washington.csv', header = TRUE, sep = ',')
+
+# Mutating Start time column to week days count and assign to a new name.
+
+ny1 <- ny %>%mutate(WeekDays = wday(Start.Time), DataSet = 'ny1')
+chi1 <- chi %>%mutate(WeekDays = wday(Start.Time), DataSet = 'chi')
+wash1 <- wash %>%mutate(WeekDays = wday(Start.Time), DataSet = 'wash') 
+ 
+# Assigning weekdays numbers to weekdays names.
+
+ny1$WeekDays <- recode(ny1$WeekDays, 
+       "1"="Sunday",
+       "2"="Monday",
+       "3"="Tuesday",
+       "4"="Wednesday",
+       "5"="Thursday",
+       "6"="Friday",
+       "7"="Saturday")
+
+chi1$WeekDays <- recode(chi1$WeekDays, 
+       "1"="Sunday",
+       "2"="Monday",
+       "3"="Tuesday",
+       "4"="Wednesday",
+       "5"="Thursday",
+       "6"="Friday",
+       "7"="Saturday")
+
+wash1$WeekDays <- recode(wash1$WeekDays, 
+       "1"="Sunday",
+       "2"="Monday",
+       "3"="Tuesday",
+       "4"="Wednesday",
+       "5"="Thursday",
+       "6"="Friday",
+       "7"="Saturday")
+
+
+# Putting days of the week in order From Monday to Sunday.
+
+ny1$WeekDays <- factor(ny1$WeekDays,
+                       levels=c("Monday", 
+                                "Tuesday", 
+                                "Wednesday", 
+                                "Thursday",
+                                "Friday", 
+                                "Saturday", 
+                                "Sunday"))
+
+chi1$WeekDays <- factor(chi1$WeekDays, 
+                        levels=c("Monday", 
+                                 "Tuesday", 
+                                 "Wednesday", 
+                                 "Thursday",
+                                 "Friday", 
+                                 "Saturday",
+                                 "Sunday"))
+
+wash1$WeekDays <- factor(wash1$WeekDays,
+                         levels=c("Monday", 
+                                  "Tuesday", 
+                                  "Wednesday",
+                                  "Thursday",
+                                  "Friday", 
+                                  "Saturday",
+                                  "Sunday"))
+
+# Creating new table frame for cities and week days columns.
+
+NewFram1 <-data.frame( Chicago = chi1$WeekDays)
+NewFram2 <-data.frame( New_York_City = ny1$WeekDays)
+NewFram3 <-data.frame(Washington = wash1$WeekDays)                     
+
+# Assigning the town to a vector "CITIES  
+    CITIES <-c(Chicago = chi1$WeekDays,New_York_City = ny1$WeekDays,Washington = wash1$WeekDays)
+    
+# code for generating bar chart with qplot and naming its axis.
+ 
+   qplot(Chicago,size = 1, width = 01 , data = NewFram1)+
+        geom_bar( color = "red", size =2,width = 0.9)+
+         geom_bar(data =NewFram2,size = 2,width = 0.6, aes(x= New_York_City), color ="green") +   
+          geom_bar(data = NewFram3,size = 2,width = 0.3,aes(x= Washington),color = "blue")+
+           scale_y_continuous(breaks = seq(10000,85000,5000))+
+            xlab("Days of the week")+
+              ylab("Users count")+
+               ggtitle("        Most common day of the week in all cities")
+   
+```
+
+### SUMMARY
+
+For this combine bar chart, Chicago is **"Red Bar"**, New-York-City is **"Green Bar"** and Washington is **"Blue Bar"**.
+  
+  Looking at this combine graph you can clearly see 3 or more main information, we have the most common day of the week for each city,the city with the top most common day in a week, and also the city with the most common users for each day which made it soo interesting for the companies as they can compare output with competitors or departments withing a company to improve output. Same gose with users to make their appointments or program on which day will best suit them
+  
+Following my output visualization, the following result were realized;
+
+* The most common week day for Bike-share users in New-York-City is **WEDNESDAY**,and who emerge the city with the top most common day of the week.
+* The most common week day for Bike-share users is in Chicago is **TTUESDAY**.
+* The most common week day for Bike-share users is in Washington is **WEDNESDAY**.
+  
+ Looking at the chart again we can notice city like Chicago having most common days which are slightly equal which is not the case with the other cities. Again some cities top common on different days like Washington topping on Monday. Find bellow chart for each city.
+
+### See Bellow for each city.
+
+### For  Chicago
+
+```{r}
+# Call of bar-chart and display characteristics using qplot.
+
+qplot(Chicago,size = 1, width = 1, data = NewFram1)+
+     geom_bar( color = "red", size =2,width = 0.9)+
+        scale_y_continuous(breaks = seq(10000,85000,5000))+
+           ylab("Users count")+
+             ggtitle("Most common day of the week in Chicago")
+
+```
+
+### For New-York-City
+ 
+```{R}
+# Call of bar-chart and display characteristics using qplot. 
+
+qplot(New_York_City,size = 1, width = 1 , geom ="bar", data = NewFram2)+
+    geom_bar(size = 2,width = 0.6,color ="green")+
+       scale_y_continuous(breaks = seq(10000,85000,5000))+
+        ylab("Users count")+
+         ggtitle("Most common day of the week in New-York-City")
+
+```
+
+###   For Washington
+
+```{r}
+# Call of bar-chart and display characteristics using qplot.
+ 
+qplot(Washington, size = 01, width = 0.3,data = NewFram3)+
+    geom_bar(size = 02,width = 0.3,color = "blue")+
+     scale_y_continuous(breaks = seq(10000,85000,5000))+
+      ylab("Users count")+
+        ggtitle("Most common day of the week in Washington")
+ 
+```
+
+
+***     
+
+
+                       *****BONUS QUESTION*****
+
+
+##                QUESTION (4)  
+
+## Q4) Give the most common  Trip duration for both male and famale in MINUTS for each city.
+
+### For New-York-City.
+
+```{r table}
+
+ny<-read.csv ('new-york-city.csv', header = TRUE, sep = ',')
+chi<-read.csv ('chicago.csv', header = TRUE, sep = ',')
+wash<-read.csv ('washington.csv', header = TRUE, sep = ',')
+
+# Output sum table for male and female in New-York-City with no NA
+  
+  table(ny.No.na$Gender)
+  by(ny.No.na$Trip.Duration,ny.No.na$Gender,sum)
+
+```
+
+### For New-York-city
+
+```{r New-York}
+# assigning of variables
+
+Trip.Du_Min_ny = c(NULL)
+xd1= 1
+Trip.Du2<- ny.No.na$Trip.Duration
+
+# converting trip duration to Minute
+
+for (vari2 in Trip.Du2) {
+    minut = vari2/60
+    Trip.Du_Min_ny[xd1]= minut
+    xd1 = xd1 + 1
+    
+   }
+
+# Display characteristics with freqpoly graph using qplot.
+
+qplot(x = Trip.Du_Min_ny,colour = Gender, geom = 'freqpoly',binwidth =5, data = subset(ny.No.na,!is.na(Gender)))+
+  scale_x_continuous(limits = c(0,200),breaks = seq(0,200,30))+
+   scale_y_continuous(breaks = seq(10000,85000,10000))+
+    xlab("Trip Duration in Minutes")+
+     ylab("Users time count")+
+      ggtitle("Most common travel duration for male and female in New-York-City")+
+       facet_wrap(~Gender)
+
+```
+
+### SUMMAR
+
+  from my chart its obvious most people,indeed about 90% of bike-share users  cover just **5 to 60mn** of their ride both male and female, but with the extreme majority being the male. With this we can tell how long majority users spent riding and the distance this majority covers and the obvious that bike riding is mostly withing town.     
+
+
+```{r}
+# Output sum table for male and female in Chicago excluding NA.
+
+  table(chi.No.na$Gender)
+  by(chi.No.na$Trip.Duration,chi.No.na$Gender,sum)
+
+```
+
+
+
+```{r}
+
+# assigning of variables
+
+chi.No.na <- na.omit(chi)
+Trip.Du_Min_chi = c(NULL)
+xd1= 1
+Trip.Du2<- chi.No.na$Trip.Duration
+
+# converting trip duration to Minute
+
+for (vari2 in Trip.Du2) {
+    minut = vari2/60
+    Trip.Du_Min_chi[xd1]= minut
+    xd1 = xd1 + 1
+    
+   }
+
+# Display characteristics with freqpoly graph using qplot.
+
+qplot(x = Trip.Du_Min_chi,colour = Gender,binwdth =25, geom = 'freqpoly',data = chi.No.na)+
+  scale_x_continuous(limits = c(0,200),breaks = seq(0,200,30))+
+  scale_y_continuous(breaks = seq(10000,85000,10000))+
+   xlab("Trip Duration in Minutes")+
+    ylab("Users Duration count")+
+     ggtitle("Most common travel duration for bike-share users in Chicago")+
+      facet_wrap(~Gender)
+
+
+```
+
+###                                    END
+
+
+***
+
+```
